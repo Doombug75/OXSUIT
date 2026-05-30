@@ -7,12 +7,24 @@
 //   This loader handles the conversion transparently.
 //
 // Resource key mapping:
-//   OXSUIT key        → WPF resource key
-//   "ContentBg"       → "ContentBgBrush"        (SolidColorBrush)
-//   "CornerRadius"    → "OxsuitCornerRadius"     (CornerRadius)
-//   "BorderWidth"     → "OxsuitBorderWidth"      (double)
-//                     → "OxsuitBorderThickness"  (Thickness)
-//   "ShadowDepth"     → "OxsuitShadowDepth"      (double)
+//   OXSUIT key                 → WPF resource key
+//   "ContentBg"                → "ContentBgBrush"                  (SolidColorBrush)
+//   "CornerRadius"             → "OxsuitCornerRadius"               (CornerRadius)
+//   "ShadowDepth"              → "OxsuitShadowDepth"                (double)
+//   "ContentBorderWidth"       → "OxsuitContentBorderWidth"         (double)
+//                              → "OxsuitContentBorderThickness"     (Thickness)
+//   "SidebarBorderWidth"       → "OxsuitSidebarBorderWidth"         (double)
+//                              → "OxsuitSidebarBorderThickness"     (Thickness)
+//   "ControlBorderWidth"       → "OxsuitControlBorderWidth"         (double)
+//                              → "OxsuitControlBorderThickness"     (Thickness)
+//   "InputBorderWidth"         → "OxsuitInputBorderWidth"           (double)
+//                              → "OxsuitInputBorderThickness"       (Thickness)
+//   "PrimaryBorderWidth"       → "OxsuitPrimaryBorderWidth"         (double)
+//                              → "OxsuitPrimaryBorderThickness"     (Thickness)
+//   "SecondaryBorderWidth"     → "OxsuitSecondaryBorderWidth"       (double)
+//                              → "OxsuitSecondaryBorderThickness"   (Thickness)
+//   "TertiaryBorderWidth"      → "OxsuitTertiaryBorderWidth"        (double)
+//                              → "OxsuitTertiaryBorderThickness"    (Thickness)
 
 using System;
 using System.Linq;
@@ -83,19 +95,34 @@ public static class OxsuitLoader
         var value = el.Attribute("value")?.Value;
         if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) return;
 
+        if (!double.TryParse(value,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var d)) return;
+
         switch (key)
         {
-            case "CornerRadius" when double.TryParse(value, out var r):
-                rd["OxsuitCornerRadius"] = new CornerRadius(r);
+            // ── Global geometry ──────────────────────────────────────────────
+            case "CornerRadius":
+                rd["OxsuitCornerRadius"] = new CornerRadius(d);
                 break;
 
-            case "BorderWidth" when double.TryParse(value, out var bw):
-                rd["OxsuitBorderWidth"]     = bw;
-                rd["OxsuitBorderThickness"] = new Thickness(bw);
+            case "ShadowDepth":
+                rd["OxsuitShadowDepth"] = d;
                 break;
 
-            case "ShadowDepth" when double.TryParse(value, out var sd):
-                rd["OxsuitShadowDepth"] = sd;
+            // ── Per-surface border widths ────────────────────────────────────
+            // Each produces both a double and a Thickness resource so XAML
+            // bindings can use whichever type their property expects.
+            case "ContentBorderWidth":
+            case "SidebarBorderWidth":
+            case "ControlBorderWidth":
+            case "InputBorderWidth":
+            case "PrimaryBorderWidth":
+            case "SecondaryBorderWidth":
+            case "TertiaryBorderWidth":
+                rd[$"Oxsuit{key}"]                              = d;
+                rd[$"Oxsuit{key.Replace("Width", "Thickness")}"] = new Thickness(d);
                 break;
         }
     }

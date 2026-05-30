@@ -22,7 +22,7 @@ A single `.oxsuit` file describes:
 
 - **27 semantic color keys** covering every standard UI surface
 - **15 optional slot colors** for apps that need extra named surfaces (chat bubbles, panels, categories…)
-- **3 visual geometry tokens** — border width, corner radius, shadow depth
+- **9 visual geometry tokens** — per-surface border widths, corner radius, shadow depth
 
 No fonts. No sizes. No layout rules. Just **color + shape**.
 

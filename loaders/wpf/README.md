@@ -20,9 +20,10 @@ It handles all format details automatically:
 - **Resource key naming** — OXSUIT keys (`ContentBg`, `SidebarText`, …)
   get `Brush` appended to match WPF convention (`ContentBgBrush`,
   `SidebarTextBrush`, …).
-- **Geometry tokens** — `CornerRadius`, `BorderWidth`, and `ShadowDepth`
-  are converted to the appropriate WPF types and stored with an
-  `Oxsuit` prefix (`OxsuitCornerRadius`, `OxsuitBorderThickness`, …).
+- **Geometry tokens** — `CornerRadius` and `ShadowDepth` (global) plus
+  seven per-surface `*BorderWidth` tokens are converted to the appropriate
+  WPF types and stored with an `Oxsuit` prefix
+  (`OxsuitCornerRadius`, `OxsuitContentBorderThickness`, …).
 - **App-specific extensions** — optional `<extensions app="MyApp">`
   blocks are loaded on request and ignored otherwise.
 
@@ -123,16 +124,32 @@ ready-to-use WPF typed resources:
 | OXSUIT token | WPF resource key | Type |
 |---|---|---|
 | `CornerRadius` | `OxsuitCornerRadius` | `CornerRadius` |
-| `BorderWidth` | `OxsuitBorderWidth` | `double` |
-| `BorderWidth` | `OxsuitBorderThickness` | `Thickness` |
 | `ShadowDepth` | `OxsuitShadowDepth` | `double` |
+| `ContentBorderWidth` | `OxsuitContentBorderWidth` | `double` |
+| `ContentBorderWidth` | `OxsuitContentBorderThickness` | `Thickness` |
+| `SidebarBorderWidth` | `OxsuitSidebarBorderWidth` | `double` |
+| `SidebarBorderWidth` | `OxsuitSidebarBorderThickness` | `Thickness` |
+| `ControlBorderWidth` | `OxsuitControlBorderWidth` | `double` |
+| `ControlBorderWidth` | `OxsuitControlBorderThickness` | `Thickness` |
+| `InputBorderWidth` | `OxsuitInputBorderWidth` | `double` |
+| `InputBorderWidth` | `OxsuitInputBorderThickness` | `Thickness` |
+| `PrimaryBorderWidth` | `OxsuitPrimaryBorderWidth` | `double` |
+| `PrimaryBorderWidth` | `OxsuitPrimaryBorderThickness` | `Thickness` |
+| `SecondaryBorderWidth` | `OxsuitSecondaryBorderWidth` | `double` |
+| `SecondaryBorderWidth` | `OxsuitSecondaryBorderThickness` | `Thickness` |
+| `TertiaryBorderWidth` | `OxsuitTertiaryBorderWidth` | `double` |
+| `TertiaryBorderWidth` | `OxsuitTertiaryBorderThickness` | `Thickness` |
+
+Each `*BorderWidth` token produces **two** WPF resources — a `double` for code-behind
+and a `Thickness` for direct XAML property binding — so you never need to wrap
+the value in a converter.
 
 Example XAML usage:
 
 ```xml
-<!-- Border that uses the theme's corner rounding -->
+<!-- Border that uses the theme's corner rounding and content-area border width -->
 <Border CornerRadius="{DynamicResource OxsuitCornerRadius}"
-        BorderThickness="{DynamicResource OxsuitBorderThickness}"
+        BorderThickness="{DynamicResource OxsuitContentBorderThickness}"
         BorderBrush="{DynamicResource ContentBorderBrush}"
         Background="{DynamicResource ContentBgBrush}">
     <TextBlock Foreground="{DynamicResource ContentTextBrush}"
@@ -141,14 +158,14 @@ Example XAML usage:
 ```
 
 ```xml
-<!-- Button using accent and shape tokens -->
+<!-- Button using accent colour and control-surface border width -->
 <Button Background="{DynamicResource AccentBgBrush}"
         Foreground="{DynamicResource AccentTextBrush}">
     <Button.Template>
         <ControlTemplate TargetType="Button">
             <Border Background="{TemplateBinding Background}"
                     CornerRadius="{DynamicResource OxsuitCornerRadius}"
-                    BorderThickness="{DynamicResource OxsuitBorderThickness}"
+                    BorderThickness="{DynamicResource OxsuitControlBorderThickness}"
                     BorderBrush="{DynamicResource ControlBorderBrush}"
                     Padding="12,6">
                 <ContentPresenter HorizontalAlignment="Center"
@@ -273,12 +290,24 @@ All color keys are the OXSUIT key name with `Brush` appended.
 
 ### Geometry tokens (present when defined in the file)
 
+**Global:**
+
 | OXSUIT token | WPF resource key | WPF type |
 |---|---|---|
 | `CornerRadius` | `OxsuitCornerRadius` | `CornerRadius` |
-| `BorderWidth` | `OxsuitBorderWidth` | `double` |
-| `BorderWidth` | `OxsuitBorderThickness` | `Thickness` |
 | `ShadowDepth` | `OxsuitShadowDepth` | `double` |
+
+**Per-surface border widths** (each produces a `double` and a `Thickness`):
+
+| OXSUIT token | WPF `double` key | WPF `Thickness` key |
+|---|---|---|
+| `ContentBorderWidth` | `OxsuitContentBorderWidth` | `OxsuitContentBorderThickness` |
+| `SidebarBorderWidth` | `OxsuitSidebarBorderWidth` | `OxsuitSidebarBorderThickness` |
+| `ControlBorderWidth` | `OxsuitControlBorderWidth` | `OxsuitControlBorderThickness` |
+| `InputBorderWidth` | `OxsuitInputBorderWidth` | `OxsuitInputBorderThickness` |
+| `PrimaryBorderWidth` | `OxsuitPrimaryBorderWidth` | `OxsuitPrimaryBorderThickness` |
+| `SecondaryBorderWidth` | `OxsuitSecondaryBorderWidth` | `OxsuitSecondaryBorderThickness` |
+| `TertiaryBorderWidth` | `OxsuitTertiaryBorderWidth` | `OxsuitTertiaryBorderThickness` |
 
 ---
 

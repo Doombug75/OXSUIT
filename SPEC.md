@@ -116,25 +116,53 @@ The primary brand and action colors.
 
 ## `<tokens>` — Visual geometry
 
-Three optional tokens that define the *feel* of the theme — its geometry and depth.  
+Nine optional tokens that define the *feel* of the theme — its geometry, depth, and per-surface border weights.  
 Font choices, sizes, spacing, and layout are deliberately excluded; those are application concerns.
+
+The `min` and `max` attributes are hints for editor tools (e.g. slider range in Theminator).  
+Loaders may clamp values to these ranges.
+
+### Global geometry tokens
 
 ```xml
 <tokens>
-  <token key="BorderWidth"  value="1" unit="px" min="0" max="10"/>
-  <token key="CornerRadius" value="8" unit="px" min="0" max="20"/>
-  <token key="ShadowDepth"  value="1"           min="0" max="3"/>
+  <token key="CornerRadius" value="8"  unit="px" min="0" max="20"/>
+  <token key="ShadowDepth"  value="2"            min="0" max="12"/>
 </tokens>
 ```
 
 | Key | Unit | Range | Description |
 |-----|------|-------|-------------|
-| `BorderWidth` | px | 0–10 | Stroke width of borders and outlines. `0` = flat/borderless. |
-| `CornerRadius` | px | 0–20 | Rounding of corners. `0` = sharp, `20` = strongly rounded. |
-| `ShadowDepth` | — | 0–3 | Elevation feel. `0` = flat, `1` = subtle, `2` = raised, `3` = floating. |
+| `CornerRadius` | px | 0–20 | Global corner rounding applied to cards, bubbles, buttons, and inputs. `0` = sharp, `20` = strongly rounded. |
+| `ShadowDepth` | px | 0–12 | Drop-shadow depth for elevated elements (window frame, floating panels). `0` = flat / no shadow. |
 
-The `min` and `max` attributes are hints for editor tools (e.g. slider range in Theminator).  
-Loaders may clamp values to these ranges.
+### Per-surface border width tokens
+
+Each border-capable surface has its own `BorderWidth` token, allowing a theme to mix thick bubble outlines with hairline input borders — or go completely flat on some surfaces while keeping definition on others.
+
+```xml
+<tokens>
+  <token key="ContentBorderWidth"   value="1" unit="px" min="0" max="8"/>
+  <token key="SidebarBorderWidth"   value="1" unit="px" min="0" max="8"/>
+  <token key="ControlBorderWidth"   value="1" unit="px" min="0" max="8"/>
+  <token key="InputBorderWidth"     value="1" unit="px" min="0" max="8"/>
+  <token key="PrimaryBorderWidth"   value="1" unit="px" min="0" max="8"/>
+  <token key="SecondaryBorderWidth" value="1" unit="px" min="0" max="8"/>
+  <token key="TertiaryBorderWidth"  value="1" unit="px" min="0" max="8"/>
+</tokens>
+```
+
+| Key | Paired color key | Surface |
+|-----|-----------------|---------|
+| `ContentBorderWidth`   | `ContentBorder`   | Main content area |
+| `SidebarBorderWidth`   | `SidebarBorder`   | Sidebar / navigation panel |
+| `ControlBorderWidth`   | `ControlBorder`   | Buttons, cards, interactive containers |
+| `InputBorderWidth`     | `InputBorder`     | Text fields and editable areas |
+| `PrimaryBorderWidth`   | `PrimaryBorder`   | Primary optional surface slot |
+| `SecondaryBorderWidth` | `SecondaryBorder` | Secondary optional surface slot |
+| `TertiaryBorderWidth`  | `TertiaryBorder`  | Tertiary optional surface slot |
+
+All border width tokens default to `1` if omitted. A value of `0` means borderless for that surface.
 
 ---
 
@@ -248,9 +276,18 @@ Loaders silently ignore extension blocks they do not recognise.
   </colors>
 
   <tokens>
-    <token key="BorderWidth"  value="1" unit="px" min="0" max="10"/>
-    <token key="CornerRadius" value="8" unit="px" min="0" max="20"/>
-    <token key="ShadowDepth"  value="1"           min="0" max="3"/>
+    <!-- Global geometry -->
+    <token key="CornerRadius"         value="8"  unit="px" min="0" max="20"/>
+    <token key="ShadowDepth"          value="2"            min="0" max="12"/>
+
+    <!-- Per-surface border widths -->
+    <token key="ContentBorderWidth"   value="1"  unit="px" min="0" max="8"/>
+    <token key="SidebarBorderWidth"   value="1"  unit="px" min="0" max="8"/>
+    <token key="ControlBorderWidth"   value="1"  unit="px" min="0" max="8"/>
+    <token key="InputBorderWidth"     value="1"  unit="px" min="0" max="8"/>
+    <token key="PrimaryBorderWidth"   value="1"  unit="px" min="0" max="8"/>
+    <token key="SecondaryBorderWidth" value="1"  unit="px" min="0" max="8"/>
+    <token key="TertiaryBorderWidth"  value="1"  unit="px" min="0" max="8"/>
   </tokens>
 
 </oxsuit>
@@ -264,5 +301,6 @@ Loaders silently ignore extension blocks they do not recognise.
 |---------|------|----------|
 | Core colors (5 surfaces) | 27 | ✅ |
 | Optional surface slots | 15 | ✗ |
-| Tokens | 3 | ✗ |
+| Global geometry tokens | 2 (`CornerRadius`, `ShadowDepth`) | ✗ |
+| Per-surface border width tokens | 7 (`*BorderWidth`) | ✗ |
 | Extensions | unlimited | ✗ |
