@@ -1,9 +1,17 @@
+<div align="center">
+
+<img src="Assets/Oxminator_256.png" width="140" alt="Oxminator — The Bull in a Suit"/>
+
 # OXSUIT
 
 **Open eXtensible Standard for User Interface Themes**
 
+*Put the bull in a suit.*
+
 A lightweight, platform-agnostic XML theme format for GUI applications.  
 Define colors and visual geometry once — load everywhere.
+
+</div>
 
 ---
 
@@ -38,8 +46,7 @@ No fonts. No sizes. No layout rules. Just **color + shape**.
 
   <!-- Optional: app-specific extra colors -->
   <extensions app="MyApp">
-    <color key="PrimaryBg" value="#111828"/>
-    <!-- ... -->
+    <color key="MySpecialColor" value="#FF6B35"/>
   </extensions>
 
 </oxsuit>
@@ -69,6 +76,21 @@ Platform loaders convert to their native color model as needed.
 | Platform | Location | Status |
 |----------|----------|--------|
 | WPF (.NET) | [`loaders/wpf/`](loaders/wpf/) | ✅ v1.0 |
+
+---
+
+## Tooling
+
+| Tool | Description |
+|------|-------------|
+| [OXSUIT Theminator](../Theminator) | Visual editor — create and preview `.oxsuit` themes with a live color picker |
+
+---
+
+## Mascot
+
+**Oxminator** — a chrome bull in a black suit with golden horns and aviator shades.  
+The bull wears the suit. *That's the whole pitch.*
 
 ---
 
