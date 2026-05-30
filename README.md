@@ -53,7 +53,7 @@ No fonts. No sizes. No layout rules. Just **color + shape**.
 ```
 
 See [`SPEC.md`](SPEC.md) for the full specification.  
-See [`examples/`](examples/) for ready-to-use theme files.  
+See [`examples/`](examples/) for **101 ready-to-use themes** — dark, light, high-contrast, sci-fi, fantasy, retro, nature, and more. Drop any of them straight into your app.  
 See [`loaders/`](loaders/) for platform loader implementations.
 
 ---
