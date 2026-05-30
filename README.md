@@ -6,7 +6,8 @@
 
 **Open eXtensible Standard for User Interface Themes**
 
-*Put the bull in a suit.*
+*Put the bull in a suit.*  
+***BEEF up your UI.***
 
 A lightweight, platform-agnostic XML theme format for GUI applications.  
 Define colors and visual geometry once — load everywhere.
