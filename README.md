@@ -84,7 +84,7 @@ Platform loaders convert to their native color model as needed.
 
 | Tool | Description |
 |------|-------------|
-| [OXSUIT Theminator](../Theminator) | Visual editor — create and preview `.oxsuit` themes with a live color picker |
+| [OXSUIT Theminator](https://github.com/Doombug75/Theminator) | Visual editor — create and preview `.oxsuit` themes with a live color picker |
 
 ---
 
