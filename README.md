@@ -97,3 +97,7 @@ The bull wears the suit. *That's the whole pitch.*
 ## License
 
 MIT — use freely in any project, open or commercial.
+
+---
+Do not hesitate.
+## *Suit up your bull.*
