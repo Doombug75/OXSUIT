@@ -119,9 +119,15 @@ private void SwitchTheme(string newThemePath)
 ## Using tokens in XAML
 
 When a theme includes a `<tokens>` block, the loader creates
-ready-to-use WPF typed resources:
+ready-to-use WPF typed resources.
 
-| OXSUIT token | WPF resource key | Type |
+> **Naming:** Token keys in the `.oxsuit` file are clean and platform-agnostic
+> (`CornerRadius`, `ShadowDepth`, `ContentBorderWidth` …).  
+> The WPF loader adds an `Oxsuit` **prefix** when storing them in the
+> `ResourceDictionary` — purely to avoid collisions with keys the host
+> application may already have under the same name.
+
+| `.oxsuit` token key | WPF resource key | WPF type |
 |---|---|---|
 | `CornerRadius` | `OxsuitCornerRadius` | `CornerRadius` |
 | `ShadowDepth` | `OxsuitShadowDepth` | `double` |
@@ -140,9 +146,9 @@ ready-to-use WPF typed resources:
 | `TertiaryBorderWidth` | `OxsuitTertiaryBorderWidth` | `double` |
 | `TertiaryBorderWidth` | `OxsuitTertiaryBorderThickness` | `Thickness` |
 
-Each `*BorderWidth` token produces **two** WPF resources — a `double` for code-behind
-and a `Thickness` for direct XAML property binding — so you never need to wrap
-the value in a converter.
+Each `*BorderWidth` token produces **two** WPF resources — a `double` for
+code-behind and a `Thickness` for direct XAML property binding — so you never
+need to wrap the value in a converter.
 
 Example XAML usage:
 
